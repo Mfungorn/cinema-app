@@ -15,8 +15,8 @@ out/
 
 # Gradle files
 .gradle/
+gradle/wrapper/
 build/
-/build
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -33,10 +33,10 @@ proguard/
 
 # Android Studio captures folder
 captures/
-/captures
 
 # IntelliJ
 *.iml
+.idea/
 .idea/workspace.xml
 .idea/modules.xml
 .idea/tasks.xml
@@ -59,3 +59,8 @@ google-services.json
 .DS_Store
 
 .externalNativeBuild
+
+proguard-rules.pro
+gradle.properties
+gradlew
+gradlew.bat
