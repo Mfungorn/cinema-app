@@ -60,17 +60,18 @@ class FeedPresenter : MvpPresenter<FeedView>(), CoroutineScope {
         }
     }
 
-    fun sortFilmsByGenre(genre: String) {
+    fun sortFilmsByGenre(genre: String) = this.launch {
         viewState.onFilmsLoading()
         films?.let {
             if (genre.isEmpty()) {
                 sortedFilms.clear()
                 sortedFilms.addAll(it)
             } else {
+                val result = withContext(Dispatchers.Default) {
+                    it.filter { film -> film.genres.contains(genre) }
+                }
                 sortedFilms.clear()
-                sortedFilms.addAll(it.filter { film ->
-                    film.genres.contains(genre)
-                })
+                sortedFilms.addAll(result)
             }
         }
         viewState.onFilmsLoaded(sortedFilms)

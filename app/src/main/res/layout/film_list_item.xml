@@ -18,7 +18,7 @@
             app:srcCompat="@drawable/ic_no_image"/>
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:text="Title"
             android:maxLines="2"
             android:ellipsize="end"
