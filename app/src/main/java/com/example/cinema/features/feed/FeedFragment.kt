@@ -1,5 +1,6 @@
 package com.example.cinema.features.feed
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.cinema.R
-import com.example.cinema.core.adapters.FilmAdapter
+import com.example.cinema.core.adapters.FeedAdapter
 import com.example.cinema.core.models.Film
 import com.example.cinema.features.BaseFragment
-import com.example.cinema.features.MainActivity
+import com.example.cinema.features.NavigationListener
 import com.google.android.flexbox.*
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 
@@ -22,10 +23,20 @@ class FeedFragment : BaseFragment(), FeedView {
     @InjectPresenter
     lateinit var presenter: FeedPresenter
 
+    private var navigationListener: NavigationListener? = null
+
     private lateinit var feedRecyclerView: RecyclerView
-    private lateinit var adapter: FilmAdapter
+    private lateinit var adapter: FeedAdapter
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigationListener = context as? NavigationListener
+        if (navigationListener == null) {
+            throw ClassCastException("$context must implement NavigationListener")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,13 +63,13 @@ class FeedFragment : BaseFragment(), FeedView {
             alignItems = AlignItems.STRETCH
         }
 
-        adapter = FilmAdapter(view.context, object : FilmAdapter.OnItemClickListener {
+        adapter = FeedAdapter(view.context, object : FeedAdapter.OnItemClickListener {
             override fun onGenreCheckChange(genre: String) {
                 presenter.sortFilmsByGenre(genre)
             }
 
             override fun onFilmClick(film: Film) {
-                (activity as MainActivity).showFilmDetails(film)
+                navigationListener?.onFilmDetailsNavigate(film)
             }
         })
 
@@ -78,8 +89,11 @@ class FeedFragment : BaseFragment(), FeedView {
 
     override fun onFilmsLoaded(films: List<Film>?) {
         films?.let {
-            adapter.setFilms(it)
-            adapter.setGenres(presenter.genres.toList())
+            adapter.apply {
+                refreshFilms(it)
+                refreshGenres(presenter.genres.toList())
+            }
+
             progressBar.visibility = View.GONE
             feedRecyclerView.visibility = View.VISIBLE
         }
