@@ -52,6 +52,7 @@ class FeedPresenter : MvpPresenter<FeedView>(), CoroutineScope {
             films = payload.films.also {
                 withContext(Dispatchers.Default) {
                     for (film in it) { genres.addAll(film.genres) }
+                    it.sortBy { it.localizedName }
                 }
             }
             viewState.onFilmsLoaded(films)
