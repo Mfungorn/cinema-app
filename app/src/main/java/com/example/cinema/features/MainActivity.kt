@@ -2,6 +2,7 @@ package com.example.cinema.features
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import com.example.cinema.App
 import com.example.cinema.R
 import com.example.cinema.core.models.Film
@@ -11,11 +12,13 @@ import com.example.cinema.features.feed.FeedFragment
 
 class MainActivity : BaseActivity(), NavigationListener {
 
+    private var content: Fragment? = null
+
     init {
         App.INSTANCE.getAppComponent().inject(this)
     }
 
-    lateinit var toolbar: Toolbar
+    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +30,15 @@ class MainActivity : BaseActivity(), NavigationListener {
             title = getString(R.string.app_name)
         }
 
-        supportFragmentManager.beginTransaction()
-            .replace(getContainerId(), FeedFragment.newInstance(), "FEED")
-            .commit()
+        content = if (savedInstanceState != null) {
+            supportFragmentManager.getFragment(savedInstanceState, "FILM")
+        } else FeedFragment.newInstance()
+
+        content?.let {
+            supportFragmentManager.beginTransaction()
+                .replace(getContainerId(), it, it.tag)
+                .commit()
+        }
     }
 
     override fun onFilmDetailsNavigate(film: Film) {
@@ -37,8 +46,6 @@ class MainActivity : BaseActivity(), NavigationListener {
             .add(getContainerId(), DetailsFragment.newInstance(film), "FILM")
             .addToBackStack("FILM")
             .commit()
-        toolbar.title = film.localizedName
-        toggleBackButton(true)
     }
 
     override fun getLayoutId() = R.layout.activity_main
@@ -50,6 +57,11 @@ class MainActivity : BaseActivity(), NavigationListener {
             setDisplayHomeAsUpEnabled(isEnabled)
             setDisplayShowHomeEnabled(isEnabled)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        content?.let { supportFragmentManager.putFragment(outState, it.tag.toString(), it) }
     }
 
     override fun onBackPressed() {

@@ -32,9 +32,9 @@ class FeedFragment : BaseFragment(), FeedView {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        navigationListener = context as? NavigationListener
-        if (navigationListener == null) {
-            throw ClassCastException("$context must implement NavigationListener")
+        when(context) {
+            is NavigationListener -> navigationListener = context
+            else -> throw ClassCastException("$context must implement NavigationListener")
         }
     }
 
@@ -59,7 +59,7 @@ class FeedFragment : BaseFragment(), FeedView {
         val flexboxLayoutManager = FlexboxLayoutManager(context).apply {
             flexWrap = FlexWrap.WRAP
             flexDirection = FlexDirection.ROW
-            justifyContent = JustifyContent.SPACE_BETWEEN
+            justifyContent = JustifyContent.CENTER
             alignItems = AlignItems.STRETCH
         }
 

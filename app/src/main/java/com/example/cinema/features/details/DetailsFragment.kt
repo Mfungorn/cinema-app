@@ -1,5 +1,6 @@
 package com.example.cinema.features.details
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
@@ -8,12 +9,21 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.cinema.R
 import com.example.cinema.core.models.Film
+import com.example.cinema.features.BaseActivity
 import com.example.cinema.features.BaseFragment
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_details.view.*
 
 class DetailsFragment : BaseFragment() {
     private var film: Film? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        when(context) {
+            is BaseActivity -> return
+            else -> throw ClassCastException("$context must implement NavigationListener")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +52,11 @@ class DetailsFragment : BaseFragment() {
             view.descriptionTextView.apply {
                 text = it.description
                 movementMethod = ScrollingMovementMethod()
+            }
+            (activity as BaseActivity).supportActionBar?.apply {
+                title = it.localizedName
+                setDisplayHomeAsUpEnabled(true)
+                setDisplayShowHomeEnabled(true)
             }
         }
         return view
