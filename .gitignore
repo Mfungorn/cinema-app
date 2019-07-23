@@ -15,6 +15,7 @@ out/
 
 # Gradle files
 .gradle/
+gradle/wrapper/
 build/
 
 # Local configuration file (sdk path, etc)
@@ -34,9 +35,12 @@ captures/
 
 # IntelliJ
 *.iml
+.idea/
 .idea/workspace.xml
+.idea/modules.xml
 .idea/tasks.xml
 .idea/gradle.xml
+.idea/navEditor.xml
 .idea/assetWizardSettings.xml
 .idea/dictionaries
 .idea/libraries
@@ -51,6 +55,14 @@ captures/
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+.DS_Store
+
+.externalNativeBuild
+
+proguard-rules.pro
+gradle.properties
+gradlew
+gradlew.bat
 
 # Freeline
 freeline.py
