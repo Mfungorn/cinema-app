@@ -3,11 +3,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:background="@color/colorBackground">
+        android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/colorBackground">
     <ImageView
             android:id="@+id/filmImageView"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginTop="8dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
@@ -20,7 +21,7 @@
             app:srcCompat="@drawable/ic_no_image"
             android:layout_margin="16dp"/>
     <TextView
-            android:text="TextView"
+            tools:text="Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/nameTextView"
@@ -49,7 +50,8 @@
             android:layout_toRightOf="@+id/filmImageView"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:textSize="20sp" android:fontFamily="sans-serif"/>
+            android:textSize="18sp"
+            android:fontFamily="sans-serif"/>
     <TextView
             android:text="@string/rating_text"
             android:layout_width="wrap_content"
@@ -61,15 +63,17 @@
             android:layout_toRightOf="@+id/filmImageView"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:textSize="20sp" android:fontFamily="sans-serif"/>
+            android:textSize="18sp"
+            android:fontFamily="sans-serif"/>
     <TextView
-            android:text="Description"
+            tools:text="Description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/descriptionTextView"
             android:layout_marginTop="8dp"
             android:layout_below="@+id/filmImageView"
             android:scrollbars = "vertical"
+            android:nestedScrollingEnabled="true"
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
             android:layout_alignParentStart="true"
@@ -83,7 +87,7 @@
             android:textSize="18sp"
             android:fontFamily="sans-serif"/>
     <TextView
-            android:text="TextView"
+            tools:text="1999"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/yearTextView"
@@ -92,9 +96,10 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_alignTop="@+id/yearText"
-            android:textSize="20sp" android:fontFamily="sans-serif"/>
+            android:textSize="18sp"
+            android:fontFamily="sans-serif"/>
     <TextView
-            android:text="TextView"
+            tools:text="9.99"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ratingTextView"
@@ -103,6 +108,6 @@
             android:layout_toRightOf="@+id/ratingText"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:textSize="20sp" android:fontFamily="sans-serif"/>
+            android:textSize="18sp" android:fontFamily="sans-serif"/>
 
 </RelativeLayout>
