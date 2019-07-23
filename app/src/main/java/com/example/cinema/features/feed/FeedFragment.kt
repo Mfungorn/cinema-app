@@ -25,6 +25,8 @@ class FeedFragment : BaseFragment(), FeedView {
 
     private var navigationListener: NavigationListener? = null
 
+    private var checkedGenre: String? = null
+
     private lateinit var feedRecyclerView: RecyclerView
     private lateinit var adapter: FeedAdapter
     private lateinit var refreshLayout: SwipeRefreshLayout
@@ -63,15 +65,19 @@ class FeedFragment : BaseFragment(), FeedView {
             alignItems = AlignItems.STRETCH
         }
 
-        adapter = FeedAdapter(view.context, object : FeedAdapter.OnItemClickListener {
-            override fun onGenreCheckChange(genre: String) {
-                presenter.sortFilmsByGenre(genre)
-            }
+        adapter = FeedAdapter(
+            view.context,
+            savedInstanceState?.getString(GENRE_KEY),
+            object : FeedAdapter.OnItemClickListener {
+                override fun onGenreCheckChange(genre: String) {
+                    presenter.sortFilmsByGenre(genre)
+                    checkedGenre = genre
+                }
 
-            override fun onFilmClick(film: Film) {
-                navigationListener?.onFilmDetailsNavigate(film)
-            }
-        })
+                override fun onFilmClick(film: Film) {
+                    navigationListener?.onFilmDetailsNavigate(film)
+                }
+            })
 
         feedRecyclerView = view.feedRecyclerView
         feedRecyclerView.apply {
@@ -99,6 +105,11 @@ class FeedFragment : BaseFragment(), FeedView {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(GENRE_KEY, checkedGenre)
+    }
+
     override fun getLayoutId() = R.layout.fragment_feed
 
     override fun showMessage(msg: String) {
@@ -106,6 +117,8 @@ class FeedFragment : BaseFragment(), FeedView {
     }
 
     companion object {
+        private const val GENRE_KEY = "CHECKED_GENRE"
+
         fun newInstance() = FeedFragment()
     }
 }
