@@ -6,8 +6,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_marginTop="1dp"
             android:layout_marginRight="1dp"
             android:layout_marginEnd="1dp"
@@ -18,8 +18,8 @@
             app:srcCompat="@drawable/ic_no_image"/>
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:text="Title"
+            android:layout_height="60dp"
+            tools:text="Title"
             android:maxLines="2"
             android:ellipsize="end"
             android:id="@+id/nameTextView"
@@ -32,6 +32,7 @@
             android:layout_alignLeft="@+id/filmImageView"
             android:layout_alignStart="@+id/filmImageView"
             android:layout_alignRight="@+id/filmImageView"
-            android:layout_alignEnd="@+id/filmImageView" android:textSize="20sp"
+            android:layout_alignEnd="@+id/filmImageView"
+            android:textSize="18sp"
             android:textColor="@android:color/white"/>
 </RelativeLayout>
