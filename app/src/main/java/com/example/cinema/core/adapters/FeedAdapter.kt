@@ -10,12 +10,15 @@ import com.example.cinema.R
 import com.example.cinema.core.models.Film
 
 
-class FeedAdapter(context: Context, private val listener: OnItemClickListener) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FeedAdapter(
+    context: Context,
+    var checkedGenre: String? = null,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val films = ArrayList<Film>()
     private val genres = ArrayList<String>()
-    private lateinit var genresViewHolder: GenresHolder
+
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getItemCount() = (films.size + 1)
@@ -29,8 +32,7 @@ class FeedAdapter(context: Context, private val listener: OnItemClickListener) :
         val viewItem: View
         return if (viewType == 1) {
             viewItem = inflater.inflate(R.layout.film_list_genres, parent, false)
-            genresViewHolder = GenresHolder(viewItem, listener::onGenreCheckChange)
-            genresViewHolder
+            GenresHolder(viewItem, listener::onGenreCheckChange)
         } else {
             viewItem = inflater.inflate(R.layout.film_list_item, parent, false)
             FilmHolder(viewItem, listener::onFilmClick)
@@ -39,7 +41,7 @@ class FeedAdapter(context: Context, private val listener: OnItemClickListener) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position == 0) {
-            (holder as GenresHolder).rebindGenres(genres)
+            (holder as GenresHolder).rebindGenres(checkedGenre, genres)
         } else {
             (holder as FilmHolder).bind(films[position - 1])
         }
